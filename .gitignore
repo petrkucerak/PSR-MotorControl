@@ -1,0 +1,11 @@
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!.project
+!.wrproject
+!.wrmakefile
+!.cproject
+!*.c
+!*.h
