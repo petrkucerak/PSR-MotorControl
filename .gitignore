@@ -1,13 +1,30 @@
-# Ignore everything
-*
+#Standard ignore files and folders
+Makefile
+Debug/
+NoDebug/
 
-# But not these files...
-!.gitignore
-!.project
-!.wrproject
-!.wrmakefile
-!.cproject
-!*.c
-!*.h
-!LICENSE
-!*.md
+#ignore binary files
+*.o
+*.obj
+*.vxe
+*.a
+*.ace
+*.bin
+*.com
+*.dll
+*.elf
+*.exe
+*.hex
+*.ko
+*.lib
+*.out
+*.pm
+*.pxe
+*.reloc
+*.romfs
+*.rtl
+*.sho
+*.sm
+*.so
+*.st
+*.sym
