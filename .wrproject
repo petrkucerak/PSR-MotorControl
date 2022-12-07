@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wrxml>
+    <properties platform="VxWorks7" platform_name="vxworks/22.06" root="1" type="DownloadableKernelModuleProject"/>
+    <attributes>
+        <mapAttribute>
+            <intAttribute key="BuildSupportEnabled" value="1"/>
+            <stringAttribute key="BLD::Info|cmd" value="%makeprefix% make --no-print-directory"/>
+            <listAttribute key="BLD::Info|GlobalMacros">
+                <stringAttribute value="PROJECT_TYPE"/>
+                <stringAttribute value="DEFINES"/>
+                <stringAttribute value="EXPAND_DBG"/>
+                <stringAttribute value="APICHECK_OPTIONS"/>
+            </listAttribute>
+            <stringAttribute key="BLD::Info|GlobalMacro|PROJECT_TYPE" value="DKM"/>
+            <stringAttribute key="BLD::Info|GlobalMacro|DEFINES" value=""/>
+            <stringAttribute key="BLD::Info|GlobalMacro|EXPAND_DBG" value="0"/>
+            <stringAttribute key="BLD::Info|GlobalMacro|APICHECK_OPTIONS" value="-warning"/>
+            <listAttribute key="BLD::Info|Macros">
+                <stringAttribute value="VX_CPU_FAMILY"/>
+                <stringAttribute value="CPU"/>
+                <stringAttribute value="TOOL_FAMILY"/>
+                <stringAttribute value="TOOL_VERSION"/>
+                <stringAttribute value="_CC_VERSION"/>
+                <stringAttribute value="TOOL"/>
+                <stringAttribute value="TOOL_PATH"/>
+                <stringAttribute value="CC_ARCH_SPEC"/>
+                <stringAttribute value="VSB_DIR"/>
+                <stringAttribute value="VSB_CONFIG_FILE"/>
+                <stringAttribute value="LIBPATH"/>
+                <stringAttribute value="LIBS"/>
+                <stringAttribute value="DKM_LONGCALL"/>
+                <stringAttribute value="BDGEN_VSB_INCLUDE"/>
+                <stringAttribute value="APICHECK_CMD"/>
+                <stringAttribute value="APICHECK"/>
+            </listAttribute>
+            <listAttribute key="BLD::Info|Tools">
+                <stringAttribute value="C-Compiler"/>
+                <stringAttribute value="C++-Compiler"/>
+                <stringAttribute value="Linker"/>
+                <stringAttribute value="Partial Image Linker"/>
+                <stringAttribute value="Librarian"/>
+                <stringAttribute value="Assembler"/>
+            </listAttribute>
+            <stringAttribute key="BLD::Info|Tool|C-Compiler|sigs" value="*.c"/>
+            <booleanAttribute key="BLD::Info|Tool|C-Compiler|object" value="true"/>
+            <booleanAttribute key="BLD::Info|Tool|C-Compiler|passAble" value="false"/>
+            <stringAttribute key="BLD::Info|Tool|C++-Compiler|sigs" value="*.cpp;*.CPP;*.C;*.cxx;*.cc"/>
+            <booleanAttribute key="BLD::Info|Tool|C++-Compiler|object" value="true"/>
+            <booleanAttribute key="BLD::Info|Tool|C++-Compiler|passAble" value="false"/>
+            <stringAttribute key="BLD::Info|Tool|Linker|sigs" value=""/>
+            <booleanAttribute key="BLD::Info|Tool|Linker|object" value="false"/>
+            <booleanAttribute key="BLD::Info|Tool|Linker|passAble" value="false"/>
+            <stringAttribute key="BLD::Info|Tool|Partial Image Linker|sigs" value=""/>
+            <booleanAttribute key="BLD::Info|Tool|Partial Image Linker|object" value="false"/>
+            <booleanAttribute key="BLD::Info|Tool|Partial Image Linker|passAble" value="true"/>
+            <stringAttribute key="BLD::Info|Tool|Librarian|sigs" value=""/>
+            <booleanAttribute key="BLD::Info|Tool|Librarian|object" value="false"/>
+            <booleanAttribute key="BLD::Info|Tool|Librarian|passAble" value="true"/>
+            <stringAttribute key="BLD::Info|Tool|Assembler|sigs" value="*.s;*.S"/>
+            <booleanAttribute key="BLD::Info|Tool|Assembler|object" value="true"/>
+            <booleanAttribute key="BLD::Info|Tool|Assembler|passAble" value="false"/>
+            <listAttribute key="BLD::Info|specs">
+                <stringAttribute value="zynq7k-base_ARMARCH7llvm_SMP"/>
+            </listAttribute>
+            <stringAttribute key="BLD::Info|redirDir|zynq7k-base_ARMARCH7llvm_SMP" value="zynq7k-base_ARMARCH7llvm_SMP"/>
+            <stringAttribute key="BLD::Info|Macro|VX_CPU_FAMILY|value|zynq7k-base_ARMARCH7llvm_SMP" value="arm"/>
+            <stringAttribute key="BLD::Info|Macro|CPU|value|zynq7k-base_ARMARCH7llvm_SMP" value="ARMARCH7"/>
+            <stringAttribute key="BLD::Info|Macro|TOOL_FAMILY|value|zynq7k-base_ARMARCH7llvm_SMP" value="llvm"/>
+            <stringAttribute key="BLD::Info|Macro|TOOL_VERSION|value|zynq7k-base_ARMARCH7llvm_SMP" value="llvm_2016_04"/>
+            <stringAttribute key="BLD::Info|Macro|_CC_VERSION|value|zynq7k-base_ARMARCH7llvm_SMP" value="llvm_13_0_1_1"/>
+            <stringAttribute key="BLD::Info|Macro|TOOL|value|zynq7k-base_ARMARCH7llvm_SMP" value="llvm"/>
+            <stringAttribute key="BLD::Info|Macro|TOOL_PATH|value|zynq7k-base_ARMARCH7llvm_SMP" value="$(WIND_HOME)/compilers/llvm-13.0.1.1/$(WIND_VX7_LLVM_HOST_TYPE)/bin"/>
+            <stringAttribute key="BLD::Info|Macro|CC_ARCH_SPEC|value|zynq7k-base_ARMARCH7llvm_SMP" value="-fno-builtin -mabi=aapcs -mlittle-endian --target=arm-eabi -mfpu=vfpv3 -mfloat-abi=hard -mcpu=cortex-a9"/>
+            <stringAttribute key="BLD::Info|Macro|VSB_DIR|value|zynq7k-base_ARMARCH7llvm_SMP" value="$(PRJ_ROOT_DIR)/../../../opt/psr/zynq7k-base"/>
+            <stringAttribute key="BLD::Info|Macro|VSB_CONFIG_FILE|value|zynq7k-base_ARMARCH7llvm_SMP" value="$(VSB_DIR)/h/config/vsbConfig.h"/>
+            <stringAttribute key="BLD::Info|Macro|LIBPATH|value|zynq7k-base_ARMARCH7llvm_SMP" value=""/>
+            <stringAttribute key="BLD::Info|Macro|LIBS|value|zynq7k-base_ARMARCH7llvm_SMP" value=""/>
+            <stringAttribute key="BLD::Info|Macro|DKM_LONGCALL|value|zynq7k-base_ARMARCH7llvm_SMP" value="-mlong-calls "/>
+            <stringAttribute key="BLD::Info|Macro|BDGEN_VSB_INCLUDE|value|zynq7k-base_ARMARCH7llvm_SMP" value="$(VSB_DIR)/h/config/auto.conf"/>
+            <stringAttribute key="BLD::Info|Macro|APICHECK_CMD|value|zynq7k-base_ARMARCH7llvm_SMP" value="apicheck.sh -r &quot;$(VSB_DIR)/krnl/apicheck/forbidden_api.lst&quot; -n &quot;nmarm&quot; -u -s &quot;$&lt;&quot; &quot;$@&quot; $(APICHECK_OPTIONS)"/>
+            <stringAttribute key="BLD::Info|Macro|APICHECK|value|zynq7k-base_ARMARCH7llvm_SMP" value="0"/>
+            <listAttribute key="BLD::Info|Incl|zynq7k-base_ARMARCH7llvm_SMP">
+                <stringAttribute value="-I$(VSB_DIR)/share/h"/>
+                <stringAttribute value="-isystem$(VSB_DIR)/krnl/h/system"/>
+                <stringAttribute value="-isystem$(VSB_DIR)/krnl/h/public"/>
+            </listAttribute>
+            <listAttribute key="BLD::Info|Definess|zynq7k-base_ARMARCH7llvm_SMP">
+                <stringAttribute value="-DCPU=_VX_$(CPU)"/>
+                <stringAttribute value="-DTOOL_FAMILY=$(TOOL_FAMILY)"/>
+                <stringAttribute value="-DTOOL=$(TOOL)"/>
+                <stringAttribute value="-D_WRS_KERNEL"/>
+                <stringAttribute value="-D_WRS_VX_SMP"/>
+                <stringAttribute value="-D_WRS_CONFIG_SMP"/>
+                <stringAttribute value="-D_VSB_CONFIG_FILE=\&quot;$(VSB_DIR)/h/config/vsbConfig.h\&quot;"/>
+                <stringAttribute value="-DARMEL "/>
+                <stringAttribute value="-U__USER_LABEL_PREFIX__"/>
+                <stringAttribute value="-D__USER_LABEL_PREFIX__="/>
+            </listAttribute>
+            <stringAttribute key="BLD::Info|Tool|C-Compiler|derivedSigs|zynq7k-base_ARMARCH7llvm_SMP" value="*.o"/>
+            <stringAttribute key="BLD::Info|Tool|C-Compiler|dbgFlags|zynq7k-base_ARMARCH7llvm_SMP" value="-g"/>
+            <stringAttribute key="BLD::Info|Tool|C-Compiler|nonDbgFlags|zynq7k-base_ARMARCH7llvm_SMP" value="-O2"/>
+            <stringAttribute key="BLD::Info|Tool|C-Compiler|flags|zynq7k-base_ARMARCH7llvm_SMP" value="$(CC_ARCH_SPEC) -std=c11 -D__vxworks -D__VXWORKS__ -D__ELF__ -D_HAVE_TOOL_XTORS  -nostdlibinc -nostdinc++ -ftls-model=local-exec -fno-builtin -fno-strict-aliasing   -D_USE_INIT_ARRAY -mllvm -two-entry-phi-node-folding-threshold=2 -fno-unwind-tables -fno-asynchronous-unwind-tables -mno-implicit-float -Wall -Wconversion -Wno-sign-conversion    -MD -MP $(DKM_LONGCALL)"/>
+            <stringAttribute key="BLD::Info|Tool|C-Compiler|cmd|zynq7k-base_ARMARCH7llvm_SMP" value="echo &quot;building $@&quot;;%ccompilerprefix% $(TOOL_PATH)/clang %DebugModeFlags% %ToolFlags% %Defines% $(DEFINES) $(ADDED_CFLAGS) %Includes% $(ADDED_INCLUDES) -o %OutFile% -c %InFile% &amp;&amp; true &amp;&amp; if [ &quot;$(APICHECK)&quot; = &quot;1&quot; ]; then $(APICHECK_CMD);fi"/>
+            <stringAttribute key="BLD::Info|Tool|C++-Compiler|derivedSigs|zynq7k-base_ARMARCH7llvm_SMP" value="*.o"/>
+            <stringAttribute key="BLD::Info|Tool|C++-Compiler|dbgFlags|zynq7k-base_ARMARCH7llvm_SMP" value="-g"/>
+            <stringAttribute key="BLD::Info|Tool|C++-Compiler|nonDbgFlags|zynq7k-base_ARMARCH7llvm_SMP" value="-O2"/>
+            <stringAttribute key="BLD::Info|Tool|C++-Compiler|flags|zynq7k-base_ARMARCH7llvm_SMP" value="$(CC_ARCH_SPEC)  -D__vxworks -D__VXWORKS__ -D__ELF__ -D_HAVE_TOOL_XTORS  -nostdlibinc -nostdinc++ -ftls-model=local-exec -fno-builtin -fno-strict-aliasing   -D_USE_INIT_ARRAY -mllvm -two-entry-phi-node-folding-threshold=2 -fno-unwind-tables -fno-asynchronous-unwind-tables -mno-implicit-float -std=c++14    -MD -MP $(DKM_LONGCALL)"/>
+            <stringAttribute key="BLD::Info|Tool|C++-Compiler|cmd|zynq7k-base_ARMARCH7llvm_SMP" value="echo &quot;building $@&quot;;%cppcompilerprefix% $(TOOL_PATH)/clang %DebugModeFlags% %ToolFlags% %Defines% $(DEFINES) $(ADDED_C++FLAGS) %Includes% $(ADDED_INCLUDES) -o %OutFile% -c %InFile% &amp;&amp; true &amp;&amp; if [ &quot;$(APICHECK)&quot; = &quot;1&quot; ]; then $(APICHECK_CMD);fi"/>
+            <stringAttribute key="BLD::Info|Tool|Linker|derivedSigs|zynq7k-base_ARMARCH7llvm_SMP" value="*.out"/>
+            <stringAttribute key="BLD::Info|Tool|Linker|dbgFlags|zynq7k-base_ARMARCH7llvm_SMP" value="-g"/>
+            <stringAttribute key="BLD::Info|Tool|Linker|nonDbgFlags|zynq7k-base_ARMARCH7llvm_SMP" value="-O2"/>
+            <stringAttribute key="BLD::Info|Tool|Linker|flags|zynq7k-base_ARMARCH7llvm_SMP" value="--force-group-allocation -T $(VSB_DIR)/krnl/ldscripts/dkm.ld"/>
+            <stringAttribute key="BLD::Info|Tool|Linker|cmd|zynq7k-base_ARMARCH7llvm_SMP" value="echo &quot;building $@&quot;;rm -f %OutFile%;$(TOOL_PATH)/nmarm %Objects% | tclsh $(WIND_BUILD)/mk/tcl/munch.tcl -c arm -tags $(VSB_DIR)/krnl/tags/dkm.tags &gt; $(OBJ_DIR)/ctdt.c;%ccompilerprefix% $(TOOL_PATH)/clang %DebugModeFlags% $(CC_ARCH_SPEC) -std=c11 -D__vxworks -D__VXWORKS__ -D__ELF__ -D_HAVE_TOOL_XTORS  -nostdlibinc -nostdinc++ -ftls-model=local-exec -fno-builtin -fno-strict-aliasing   -D_USE_INIT_ARRAY -mllvm -two-entry-phi-node-folding-threshold=2 -fno-unwind-tables -fno-asynchronous-unwind-tables -mno-implicit-float -fdollars-in-identifiers -Wall -Wconversion -Wno-sign-conversion   -MD -MP $(ADDED_CFLAGS) %Includes% $(ADDED_INCLUDES)  $(DKM_LONGCALL) %Defines% $(DEFINES) -o $(OBJ_DIR)/ctdt.o -c $(OBJ_DIR)/ctdt.c &amp;&amp; ls $(OBJ_DIR)/ctdt.o; %linkerprefix% $(TOOL_PATH)/ldarm  -X -r -EL  --eh-frame-hdr  %ToolFlags%  -o %OutFile% $(OBJ_DIR)/ctdt.o %Objects% %Libraries% $(LIBPATH) $(LIBS) $(ADDED_LIBPATH) $(ADDED_LIBS) &amp;&amp; if [ &quot;$(EXPAND_DBG)&quot; = &quot;1&quot; ]; then plink &quot;$@&quot;;fi &amp;&amp; $(if $(_WRS_CONFIG_SECURE_LOADER),signtool  --key=$(_WRS_CONFIG_SECURE_LOADER_PRIVATE_SIGNING_KEY_FILE) --cert=$(_WRS_CONFIG_SECURE_LOADER_PUBLIC_SIGNING_CERT_FILE) --type=ELF $@,true) &amp;&amp; true &amp;&amp; $(if $(_WRS_CONFIG_SBOM),vxsbomtool --database  --file $@ --map $@.map &amp;&amp; mkdir -p  &amp;&amp; cp $@*.spdx ,true)"/>
+            <stringAttribute key="BLD::Info|Tool|Partial Image Linker|derivedSigs|zynq7k-base_ARMARCH7llvm_SMP" value="*.o"/>
+            <stringAttribute key="BLD::Info|Tool|Partial Image Linker|dbgFlags|zynq7k-base_ARMARCH7llvm_SMP" value=""/>
+            <stringAttribute key="BLD::Info|Tool|Partial Image Linker|nonDbgFlags|zynq7k-base_ARMARCH7llvm_SMP" value=""/>
+            <stringAttribute key="BLD::Info|Tool|Partial Image Linker|flags|zynq7k-base_ARMARCH7llvm_SMP" value=""/>
+            <stringAttribute key="BLD::Info|Tool|Partial Image Linker|cmd|zynq7k-base_ARMARCH7llvm_SMP" value="echo &quot;building $@&quot;; %linkerprefix% $(TOOL_PATH)/ldarm  -X -r -EL  --eh-frame-hdr  %ToolFlags% -o %OutFile% %Objects% $(ADDED_OBJECTS) %Libraries% $(LIBPATH) $(LIBS) $(ADDED_LIBPATH) $(ADDED_LIBS) &amp;&amp; if [ &quot;$(EXPAND_DBG)&quot; = &quot;1&quot; ]; then plink &quot;$@&quot;;fi"/>
+            <stringAttribute key="BLD::Info|Tool|Librarian|derivedSigs|zynq7k-base_ARMARCH7llvm_SMP" value="*.a"/>
+            <stringAttribute key="BLD::Info|Tool|Librarian|dbgFlags|zynq7k-base_ARMARCH7llvm_SMP" value=""/>
+            <stringAttribute key="BLD::Info|Tool|Librarian|nonDbgFlags|zynq7k-base_ARMARCH7llvm_SMP" value=""/>
+            <stringAttribute key="BLD::Info|Tool|Librarian|flags|zynq7k-base_ARMARCH7llvm_SMP" value="crus"/>
+            <stringAttribute key="BLD::Info|Tool|Librarian|cmd|zynq7k-base_ARMARCH7llvm_SMP" value="echo &quot;building $@&quot;;%archiverprefix% $(TOOL_PATH)/ararm %ToolFlags% %OutFile% %Objects% $(ADDED_OBJECTS)"/>
+            <stringAttribute key="BLD::Info|Tool|Assembler|derivedSigs|zynq7k-base_ARMARCH7llvm_SMP" value="*.o"/>
+            <stringAttribute key="BLD::Info|Tool|Assembler|dbgFlags|zynq7k-base_ARMARCH7llvm_SMP" value="-g"/>
+            <stringAttribute key="BLD::Info|Tool|Assembler|nonDbgFlags|zynq7k-base_ARMARCH7llvm_SMP" value="-O2"/>
+            <stringAttribute key="BLD::Info|Tool|Assembler|flags|zynq7k-base_ARMARCH7llvm_SMP" value="$(CC_ARCH_SPEC) -std=c11 -D__vxworks -D__VXWORKS__ -D__ELF__ -D_HAVE_TOOL_XTORS  -nostdlibinc -nostdinc++ -ftls-model=local-exec -fno-builtin -fno-strict-aliasing   -D_USE_INIT_ARRAY -mllvm -two-entry-phi-node-folding-threshold=2 -fno-unwind-tables -fno-asynchronous-unwind-tables -mno-implicit-float  -xassembler-with-cpp  -MD -MP $(DKM_LONGCALL)"/>
+            <stringAttribute key="BLD::Info|Tool|Assembler|cmd|zynq7k-base_ARMARCH7llvm_SMP" value="echo &quot;building $@&quot;;%assemblerprefix% $(TOOL_PATH)/clang %DebugModeFlags% %ToolFlags% %Defines% $(DEFINES) $(ADDED_CFLAGS) %Includes% $(ADDED_INCLUDES) -o %OutFile% -c %InFile% &amp;&amp; true"/>
+            <stringAttribute key="BLD::Info|redirRoot" value=""/>
+            <stringAttribute key="BLD::Info|defaultSpec" value="zynq7k-base_ARMARCH7llvm_SMP"/>
+        </mapAttribute>
+    </attributes>
+    <buildtargets>
+        <buildtarget buildtool="Linker" name="sem-motor" passed="false" targetname="sem-motor">
+            <contents>
+                <buildtargetreference name="/sem-motor/sem-motor_partialImage"/>
+            </contents>
+        </buildtarget>
+        <buildtarget buildtool="Partial Image Linker" name="sem-motor_partialImage" passed="true" targetname="sem-motor_partialImage">
+            <contents>
+                <folder name="/sem-motor" recursive="true"/>
+            </contents>
+        </buildtarget>
+    </buildtargets>
+</wrxml>

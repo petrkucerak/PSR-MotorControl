@@ -1,0 +1,114 @@
+Version=1.0
+BuildSupport=Managed
+BuildCommand=%makeprefix% make --no-print-directory
+PreferredBuildSpecs=win32:A*.*
+PreferredBuildSpecs=linux:A*.*
+GlobalMacro.Name=PROJECT_TYPE
+GlobalMacro.PROJECT_TYPE.Value=DKM
+GlobalMacro.Name=DEFINES
+GlobalMacro.DEFINES.Value=
+GlobalMacro.Name=EXPAND_DBG
+GlobalMacro.EXPAND_DBG.Value=0
+GlobalMacro.Name=APICHECK_OPTIONS
+GlobalMacro.APICHECK_OPTIONS.Value=-warning
+Macro.Name=VX_CPU_FAMILY
+Macro.Name=CPU
+Macro.Name=TOOL_FAMILY
+Macro.Name=TOOL_VERSION
+Macro.Name=_CC_VERSION
+Macro.Name=TOOL
+Macro.Name=TOOL_PATH
+Macro.Name=CC_ARCH_SPEC
+Macro.Name=VSB_DIR
+Macro.Name=VSB_CONFIG_FILE
+Macro.Name=LIBPATH
+Macro.Name=LIBS
+Macro.Name=DKM_LONGCALL
+Macro.Name=BDGEN_VSB_INCLUDE
+Macro.Name=APICHECK_CMD
+Macro.Name=APICHECK
+BuildTool.Name=C-Compiler
+BuildTool.C-Compiler.InputSuffixes=*.c
+BuildTool.C-Compiler.OutputIsObject=true
+BuildTool.C-Compiler.OutputCanBePassed=false
+BuildTool.Name=C++-Compiler
+BuildTool.C++-Compiler.InputSuffixes=*.cpp;*.CPP;*.C;*.cxx;*.cc
+BuildTool.C++-Compiler.OutputIsObject=true
+BuildTool.C++-Compiler.OutputCanBePassed=false
+BuildTool.Name=Linker
+BuildTool.Linker.InputSuffixes=
+BuildTool.Linker.OutputIsObject=false
+BuildTool.Linker.OutputCanBePassed=false
+BuildTool.Name=Partial Image Linker
+BuildTool.Partial Image Linker.InputSuffixes=
+BuildTool.Partial Image Linker.OutputIsObject=false
+BuildTool.Partial Image Linker.OutputCanBePassed=true
+BuildTool.Name=Librarian
+BuildTool.Librarian.InputSuffixes=
+BuildTool.Librarian.OutputIsObject=false
+BuildTool.Librarian.OutputCanBePassed=true
+BuildTool.Name=Assembler
+BuildTool.Assembler.InputSuffixes=*.s;*.S
+BuildTool.Assembler.OutputIsObject=true
+BuildTool.Assembler.OutputCanBePassed=false
+BuildSpec.Name=zynq7k-base_ARMARCH7llvm_SMP
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.Macro.VX_CPU_FAMILY.Value=arm
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.Macro.CPU.Value=ARMARCH7
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.Macro.TOOL_FAMILY.Value=llvm
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.Macro.TOOL_VERSION.Value=llvm_2016_04
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.Macro._CC_VERSION.Value=llvm_13_0_1_1
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.Macro.TOOL.Value=llvm
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.Macro.TOOL_PATH.Value=#WIND_HOME#/compilers/llvm-13.0.1.1/#WIND_VX7_LLVM_HOST_TYPE#/bin
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.Macro.CC_ARCH_SPEC.Value=-fno-builtin -mabi=aapcs -mlittle-endian --target=arm-eabi -mfpu=vfpv3 -mfloat-abi=hard -mcpu=cortex-a9
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.Macro.VSB_DIR.Value=/opt/psr/zynq7k-base
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.Macro.VSB_CONFIG_FILE.Value=#VSB_DIR#/h/config/vsbConfig.h
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.Macro.LIBPATH.Value=
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.Macro.LIBS.Value=
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.Macro.DKM_LONGCALL.Value=-mlong-calls 
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.Macro.BDGEN_VSB_INCLUDE.Value=#VSB_DIR#/h/config/auto.conf
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.Macro.APICHECK_CMD.Value=apicheck.sh -r "#VSB_DIR#/krnl/apicheck/forbidden_api.lst" -n "nmarm" -u -s "$<" "$@" #APICHECK_OPTIONS#
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.Macro.APICHECK.Value=0
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.IncludeSearchPath=
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.IncludeSearchPath=-I#VSB_DIR#/share/h
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.IncludeSearchPath=-isystem#VSB_DIR#/krnl/h/system
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.IncludeSearchPath=-isystem#VSB_DIR#/krnl/h/public
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.IncludeSearchPath=
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.IncludeSearchPath=
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.Symbol=-DCPU=_VX_#CPU#
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.Symbol=-DTOOL_FAMILY=#TOOL_FAMILY#
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.Symbol=-DTOOL=#TOOL#
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.Symbol=-D_WRS_KERNEL
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.SymbolList=-D_WRS_VX_SMP -D_WRS_CONFIG_SMP
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.Symbol=-D_VSB_CONFIG_FILE=\"#VSB_DIR#/h/config/vsbConfig.h\"
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.Symbol=-DARMEL 
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.SymbolList=-U__USER_LABEL_PREFIX__ -D__USER_LABEL_PREFIX__=
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.BuildTool.C-Compiler.DerivedFileSignatures=*.o
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.BuildTool.C-Compiler.DebugFlags=-g
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.BuildTool.C-Compiler.NonDebugFlags=-O2
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.BuildTool.C-Compiler.ToolFlags=#CC_ARCH_SPEC# -std=c11 -D__vxworks -D__VXWORKS__ -D__ELF__ -D_HAVE_TOOL_XTORS  -nostdlibinc -nostdinc++ -ftls-model=local-exec -fno-builtin -fno-strict-aliasing   -D_USE_INIT_ARRAY -mllvm -two-entry-phi-node-folding-threshold=2 -fno-unwind-tables -fno-asynchronous-unwind-tables -mno-implicit-float -Wall -Wconversion -Wno-sign-conversion    -MD -MP #DKM_LONGCALL#
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.BuildTool.C-Compiler.Command=echo "building $@";%ccompilerprefix% #TOOL_PATH#/clang %DebugModeFlags% %ToolFlags% %Defines% #DEFINES# #ADDED_CFLAGS# %Includes% #ADDED_INCLUDES# -o %OutFile% -c %InFile% && true && if [ "#APICHECK#" = "1" ]; then #APICHECK_CMD#;fi
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.BuildTool.C++-Compiler.DerivedFileSignatures=*.o
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.BuildTool.C++-Compiler.DebugFlags=-g
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.BuildTool.C++-Compiler.NonDebugFlags=-O2
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.BuildTool.C++-Compiler.ToolFlags=#CC_ARCH_SPEC#  -D__vxworks -D__VXWORKS__ -D__ELF__ -D_HAVE_TOOL_XTORS  -nostdlibinc -nostdinc++ -ftls-model=local-exec -fno-builtin -fno-strict-aliasing   -D_USE_INIT_ARRAY -mllvm -two-entry-phi-node-folding-threshold=2 -fno-unwind-tables -fno-asynchronous-unwind-tables -mno-implicit-float -std=c++14    -MD -MP #DKM_LONGCALL#
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.BuildTool.C++-Compiler.Command=echo "building $@";%cppcompilerprefix% #TOOL_PATH#/clang %DebugModeFlags% %ToolFlags% %Defines% #DEFINES# #ADDED_C++FLAGS# %Includes% #ADDED_INCLUDES# -o %OutFile% -c %InFile% && true && if [ "#APICHECK#" = "1" ]; then #APICHECK_CMD#;fi
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.BuildTool.Linker.DerivedFileSignatures=*.out
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.BuildTool.Linker.DebugFlags=-g
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.BuildTool.Linker.NonDebugFlags=-O2
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.BuildTool.Linker.ToolFlags=--force-group-allocation -T #VSB_DIR#/krnl/ldscripts/dkm.ld
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.BuildTool.Linker.Command=echo "building $@";rm -f %OutFile%;#TOOL_PATH#/nmarm %Objects% | tclsh #WIND_BUILD#/mk/tcl/munch.tcl -c arm -tags #VSB_DIR#/krnl/tags/dkm.tags > #OBJ_DIR#/ctdt.c;%ccompilerprefix% #TOOL_PATH#/clang %DebugModeFlags% #CC_ARCH_SPEC# -std=c11 -D__vxworks -D__VXWORKS__ -D__ELF__ -D_HAVE_TOOL_XTORS  -nostdlibinc -nostdinc++ -ftls-model=local-exec -fno-builtin -fno-strict-aliasing   -D_USE_INIT_ARRAY -mllvm -two-entry-phi-node-folding-threshold=2 -fno-unwind-tables -fno-asynchronous-unwind-tables -mno-implicit-float -fdollars-in-identifiers -Wall -Wconversion -Wno-sign-conversion   -MD -MP #ADDED_CFLAGS# %Includes% #ADDED_INCLUDES#  #DKM_LONGCALL# %Defines% #DEFINES# -o #OBJ_DIR#/ctdt.o -c #OBJ_DIR#/ctdt.c && ls #OBJ_DIR#/ctdt.o; %linkerprefix% #TOOL_PATH#/ldarm  -X -r -EL  --eh-frame-hdr  %ToolFlags%  -o %OutFile% #OBJ_DIR#/ctdt.o %Objects% %Libraries% #LIBPATH# #LIBS# #ADDED_LIBPATH# #ADDED_LIBS# && if [ "#EXPAND_DBG#" = "1" ]; then plink "$@";fi && $(if $(_WRS_CONFIG_SECURE_LOADER),signtool  --key=$(_WRS_CONFIG_SECURE_LOADER_PRIVATE_SIGNING_KEY_FILE) --cert=$(_WRS_CONFIG_SECURE_LOADER_PUBLIC_SIGNING_CERT_FILE) --type=ELF $@,true) && true && $(if $(_WRS_CONFIG_SBOM),vxsbomtool --database  --file $@ --map $@.map && mkdir -p  && cp $@*.spdx ,true)
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.BuildTool.Partial Image Linker.DerivedFileSignatures=*.o
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.BuildTool.Partial Image Linker.DebugFlags=
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.BuildTool.Partial Image Linker.NonDebugFlags=
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.BuildTool.Partial Image Linker.ToolFlags=
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.BuildTool.Partial Image Linker.Command=echo "building $@"; %linkerprefix% #TOOL_PATH#/ldarm  -X -r -EL  --eh-frame-hdr  %ToolFlags% -o %OutFile% %Objects% #ADDED_OBJECTS# %Libraries% #LIBPATH# #LIBS# #ADDED_LIBPATH# #ADDED_LIBS# && if [ "#EXPAND_DBG#" = "1" ]; then plink "$@";fi
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.BuildTool.Librarian.DerivedFileSignatures=*.a
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.BuildTool.Librarian.DebugFlags=
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.BuildTool.Librarian.NonDebugFlags=
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.BuildTool.Librarian.ToolFlags=crus
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.BuildTool.Librarian.Command=echo "building $@";%archiverprefix% #TOOL_PATH#/ararm %ToolFlags% %OutFile% %Objects% #ADDED_OBJECTS#
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.BuildTool.Assembler.DerivedFileSignatures=*.o
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.BuildTool.Assembler.DebugFlags=-g
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.BuildTool.Assembler.NonDebugFlags=-O2
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.BuildTool.Assembler.ToolFlags=#CC_ARCH_SPEC# -std=c11 -D__vxworks -D__VXWORKS__ -D__ELF__ -D_HAVE_TOOL_XTORS  -nostdlibinc -nostdinc++ -ftls-model=local-exec -fno-builtin -fno-strict-aliasing   -D_USE_INIT_ARRAY -mllvm -two-entry-phi-node-folding-threshold=2 -fno-unwind-tables -fno-asynchronous-unwind-tables -mno-implicit-float  -xassembler-with-cpp  -MD -MP #DKM_LONGCALL#
+BuildSpec.zynq7k-base_ARMARCH7llvm_SMP.BuildTool.Assembler.Command=echo "building $@";%assemblerprefix% #TOOL_PATH#/clang %DebugModeFlags% %ToolFlags% %Defines% #DEFINES# #ADDED_CFLAGS# %Includes% #ADDED_INCLUDES# -o %OutFile% -c %InFile% && true
