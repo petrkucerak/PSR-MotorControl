@@ -9,3 +9,5 @@
 !.cproject
 !*.c
 !*.h
+!LICENSE
+!*.md
