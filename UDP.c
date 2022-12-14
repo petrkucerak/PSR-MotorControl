@@ -22,7 +22,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-UDP initUDP(char *ipAddress, int port) {
+UDP *initUDP(char *ipAddress, int port) {
 
 	UDP *udp = NULL;
 	udp = (UDP*) malloc(sizeof(UDP));
@@ -73,7 +73,7 @@ UDP initUDP(char *ipAddress, int port) {
 		inet_aton(ipAddress, &udp->srv_addr.sin_addr);
 		udp->srv_addr.sin_port = (uint16_t) port;
 	}
-	return *udp;
+	return udp;
 }
 
 void sendUDPData(UDP *udp, int *data, int size) {

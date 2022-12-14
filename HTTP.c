@@ -24,7 +24,7 @@ void www() {
 	int newFd;
 	struct sockaddr_in serverAddr;
 	struct sockaddr_in clientAddr;
-	int sockAddrSize;
+	socklen_t sockAddrSize;
 
 	sockAddrSize = sizeof(struct sockaddr_in);
 	bzero((char*) &serverAddr, sizeof(struct sockaddr_in));
@@ -35,12 +35,12 @@ void www() {
 
 	s = socket(AF_INET, SOCK_STREAM, 0);
 	if (s < 0) {
-		fprintf(stderr, "Error: www: socket(%d)\n", s);
+		fprintf(stderr, "ERROR: www: socket(%d)! [HTTP.c]\n", s);
 		return;
 	}
 
 	if (bind(s, (struct sockaddr*) &serverAddr, sockAddrSize) == ERROR) {
-		fprintf(stderr, "Error: www: bind\n");
+		fprintf(stderr, "ERROR: www: bind! [HTTP.c]\n");
 		return;
 	}
 
@@ -50,7 +50,7 @@ void www() {
 		return;
 	}
 
-	printf("www server running\n");
+	printf("www server running [HTTP.c]\n");
 
 	while (1) {
 		/* accept waits for somebody to connect and the returns a new file
@@ -66,7 +66,7 @@ void www() {
 		/* The client connected from IP address inet_ntoa(clientAddr.sin_addr)
 		 and port ntohs(clientAddr.sin_port).
 
-		 Start a new task for each request. The task will parse the request
+		 Start a new task for each reqHTTPuest. The task will parse the request
 		 and sends back the response.
 
 		 Don't forget to close newFd at the end */
@@ -77,7 +77,7 @@ void www() {
 				(FUNCPTR) serverResponse, newFd, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 		if (tHttpRes == NULL) {
-			fprintf(stderr, "ERROR: Can't spawn a web server response task\n");
+			fprintf(stderr, "ERROR: Can't spawn a web server response task [HTTP.c]\n");
 		}
 
 	}
