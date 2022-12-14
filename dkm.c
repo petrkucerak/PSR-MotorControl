@@ -3,6 +3,6 @@
 #include "vxWorks.h"
 
 
-void start(void) {
+void start(char *ipAddress, int port) {
 
 }
