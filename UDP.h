@@ -49,7 +49,7 @@ typedef struct udp_s {
  * @param port [int] number with target IP protocols 
  * @return [UDP] structure UDP
  */
-UDP *initUDP(char *ipAddress, int port);
+UDP initUDP(char *ipAddress, int port);
 
 /**
  * @brief This function sending data with defined size to target
