@@ -43,13 +43,13 @@ typedef struct udp_s {
  * @brief Initialization structure for saving data about UDP protocol
  * and ip socket. If UDP protocol should running in Master mode, please
  * specify the variable with IP address. If should running in Slave mode,
- * set up NULL to IP variable.
+ * set up empty string '\0' to IP variable.
  * 
  * @param ipAddress [char] string with target IP address
  * @param port [int] number with target IP protocols 
  * @return [UDP] structure UDP
  */
-UDP initUDP(char *ipAddress, int port);
+UDP* initUDP(char *ipAddress, int port);
 
 /**
  * @brief This function sending data with defined size to target
