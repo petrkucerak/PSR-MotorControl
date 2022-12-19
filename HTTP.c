@@ -77,7 +77,8 @@ void www() {
 				(FUNCPTR) serverResponse, newFd, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 		if (tHttpRes == NULL) {
-			fprintf(stderr, "ERROR: Can't spawn a web server response task [HTTP.c]\n");
+			fprintf(stderr,
+					"ERROR: Can't spawn a web server response task [HTTP.c]\n");
 		}
 
 	}
@@ -93,7 +94,7 @@ void serverResponse(int newFd) {
 
 	/* Print the HTTP Response Body */
 	fprintf(f,
-			"<!DOCTYPE html PUBLIC \"-//IETF//DTD HTML 2.0//EN\"> <html> <head> <title> Hello PSR!</title> </head> <body> <h1>Hi</h1> <p>This is very minimal \"hello world\" HTML document.</p><p>And current time is: %ld</p> </body> </html>\r\n",
+			"<!DOCTYPE html><html lang=\"cs\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><script src=\"https://cdn.tailwindcss.com\"></script><title>Motor Control - Dashboard</title></head><body onload=\"setTimeout(function(){location.reload()}, 100);\" class=\"flex justify-center w-full\"><h1 class=\"text-4xl font-bold\">Dashboard a motor control</h1><p>%d</p></body></html>\r\n",
 			time(NULL));
 	fclose(f);
 	close(newFd);
