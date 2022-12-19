@@ -2,7 +2,10 @@
 
 SEM_ID isrSemaphore;
 
-uint8_t A,B,A_last=0,B_last=0;
+typedef struct encoder_info{
+    uint8_t A,B,A_last=0,B_last=0;
+}
+
 int steps;
 
 
@@ -43,6 +46,7 @@ void printingTask(struct psrMotor *pMotor){
 void motorShutdown(struct psrMotor *pMotor){
 	//disable motor interrupt
 	GPIO_INT_DIS(pMotor) |= pMotor->gpioIrqBit;
+    printf("motor shutdown done\n");
 }
 LOCAL STATUS motorProbe(VXB_DEV_ID pInst)
 {
@@ -136,7 +140,10 @@ error:
     }
     return ERROR;
 }
-int getMotorSteps(struct psrMotor *pMotor){
+void resetSteps(){
+    steps=0;
+}
+int getMotorSteps(){
 	return steps;
 }
 void moveMotor(struct psrMotor *pMotor,int input_steps){
@@ -162,36 +169,33 @@ void moveMotor(struct psrMotor *pMotor,int input_steps){
 	
 	FPGA_PWM_DUTY(pMotor)=0;//kill rotation
 }
-void motorInit(){
+struct psrMotor* motorInit(){
 	VXB_DEV_ID motorDrv = vxbDevAcquireByName("pmod1", 0);
 	isrSemaphore=semBCreate(SEM_Q_FIFO,0);
 	if (motorDrv == NULL) {
 	        fprintf(stderr, "vxbDevAcquireByName failed\n");
 	        return;
 	    }
-	
 	printf("acquired\n");
 	motorProbe(motorDrv);
 	printf("motor probed\n");
 	motorAttach(motorDrv);
 	printf("motor attatched\n");
 	struct psrMotor *pMotor = vxbDevSoftcGet(motorDrv);
-	FPGA_PWM_PERIOD(pMotor)|=0xA00;
+	FPGA_PWM_PERIOD(pMotor)|=0xA00;//set motor frequency
 	FPGA_CR(pMotor)|=FPGA_CR_PWM_EN;//enable pwm generator 
-	FPGA_PWM_DUTY(pMotor)|=0x00000500;//motor to 8forward 4 to revers than duty
+	//FPGA_PWM_DUTY(pMotor)|=0x00000500;
 	//FPGA_PWM_DUTY(pMotor)|=0x1<<31;//Smer1
 	//FPGA_PWM_DUTY(pMotor)|=0x1<<30;//Smer2
-			
+	printf("initialization done \n");		
+	return pMotor;
+	//TASK_ID service_task = taskSpawn("tService", 0, 0, 4096, (FUNCPTR) printingTask, pMotor, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 	
-	TASK_ID service_task = taskSpawn("tService", 0, 0, 4096, (FUNCPTR) printingTask, pMotor, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-	printf("initialization done \n");
-	moveMotor(pMotor,3000);
+	//moveMotor(pMotor,3000);
+    /*
 	while(1){
 			char c =(char)getchar();
 			if(c=='q'){break;}
-		}
-	printf("motor shutdown\n");
-	//taskDelete(motorService);
-	motorShutdown(pMotor);
+		}*/
 }
 

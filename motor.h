@@ -49,11 +49,45 @@
 #define GPIO_INT_ANY(motor)    REGISTER((motor)->gpioRegs, GPIO_INT_ANY_OFFSET)
 #define GPIO_RAW(motor)        REGISTER((motor)->gpioRegs, GPIO_DATA_RO_OFFSET)
 
-// Motor driver data
+/**
+ * @brief Predefined structure for accessing motor registers
+ * 
+ */
 struct psrMotor {
     VIRT_ADDR fpgaRegs;
     VIRT_ADDR gpioRegs;
     UINT32 gpioIrqBit;
 };
-
-void motorInit();
+/**
+ * @brief Inicialization of motor and all of its functions
+ * mainly motor interrupt service
+ * 
+ * @return Struct psrMotor* is handle for all comands for the motor
+ * mainly move and shutdown
+ */
+struct psrMotor* motorInit();
+/**
+ * @brief Ending command for shutting down the motor and doing     
+ * all the required things for correct shutdown
+ * @param pMotor Pointer to motor structure
+ */
+void motorShutdown(struct psrMotor *pMotor);
+/**
+ * @brief Comman d for the motor to move to position relative
+ * to start position. Proporsion conrelled speed.
+ * 
+ * @param pMotor Handler for the motor we want to move 
+ * @param input_steps Position relative to the starting position
+ */
+void moveMotor(struct psrMotor *pMotor,int input_steps);
+/**
+ * @brief Get the actual step count of the motor since init
+ * 
+ * @return Int count of steps relative to start
+ */
+int getMotorSteps();
+/**
+ * @brief Set motor steps to zero, reinicialize the step counter
+ * 
+ */
+void resetSteps();
