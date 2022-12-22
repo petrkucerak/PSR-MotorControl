@@ -19,7 +19,60 @@
 #define SERVER_MAX_CONNECTIONS 20
 #define WEB_RESPONSE_PRIORITY 255
 
-void www() {
+#define ID http_d->cycle_p
+
+HTTP_D* initHTTPData() {
+
+	/* Allocated the main strucutre */
+	HTTP_D *http_d = (HTTP_D*) malloc(sizeof(HTTP_D));
+	if (http_d == NULL) {
+		fprintf(stderr,
+				"ERROR: Can't allocate memory for the HTTP_D structure! [HTTP.c]\n");
+		exit(1);
+	}
+
+	/* Init a http data mutex */
+	http_d->http_sem = semMCreate(SEM_Q_FIFO);
+
+	/* set cycle pointer*/
+	http_d->cycle_p = 0;
+
+	return http_d;
+}
+
+void saveHTTPData(HTTP_D *http_d, int motor_position, int requested_position,
+		int pwm_speed) {
+
+	ID++;
+	if (ID == CYCLE_SIZE)
+		ID = 0;
+	semTake(http_d->http_sem, WAIT_FOREVER);
+	http_d->motor_position[ID] = motor_position;
+	http_d->requested_position[ID] = requested_position;
+	http_d->pwm_speed[ID] = pwm_speed;
+	semGive(http_d->http_sem);
+}
+
+void handleHTTPData(UDP *udp, struct psrMotor *my_motor, HTTP_D *http_d,
+		int *isEndp) {
+
+	while (!*isEndp) {
+		int motor_position = getMotorSteps();
+		int requested_position = udp->wanted_position;
+		int pwm_speed = getPWM(my_motor);
+		saveHTTPData(http_d, motor_position, requested_position, pwm_speed);
+		printf(
+				"Motor position: %d\nRequested position: %d\nPWM speed: %d\n\n",
+				motor_position, requested_position, pwm_speed);
+		taskDelay(100);
+	}
+}
+
+void removeHTTPData(HTTP_D *http_d) {
+	free(http_d);
+	http_d = NULL;
+}
+void www(int *isEndp) {
 	int s;
 	int newFd;
 	struct sockaddr_in serverAddr;
@@ -52,7 +105,7 @@ void www() {
 
 	printf("www server running [HTTP.c]\n");
 
-	while (1) {
+	while (!*isEndp) {
 		/* accept waits for somebody to connect and the returns a new file
 		 * descriptor */
 		if ((newFd = accept(s, (struct sockaddr*) &clientAddr, &sockAddrSize))
