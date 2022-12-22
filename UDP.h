@@ -22,6 +22,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <semLib.h>
 
 /**
  * @brief Structure defines variables using for initializing packers
@@ -30,6 +31,9 @@
  */
 typedef struct udp_s {
 	bool isMaster;
+
+	int wanted_position;
+	SEM_ID position_wanted_sem;
 
 	int sockd;
 	struct sockaddr_in my_addr, srv_addr, my_name, cli_name;
@@ -78,5 +82,30 @@ void recieveUDPData(UDP *udp, int *data, int size);
  * @param udp [UDP] udp structure to deleted
  */
 void closeUDP(UDP *udp);
+
+/**
+ * @brief 
+ * 
+ * @param udp [UDP] pointer to udp structure
+ */
+void UDPHandler(UDP *udp, int size, int *isEndp);
+
+void motorMaster(UDP *udp, int size, int *isEndp);
+
+/**
+ * @brief Set the Wanted Position object
+ * 
+ * @param udp 
+ * @param value 
+ */
+void setWantedPosition(UDP *udp, int value);
+
+/**
+ * @brief Get the Wanted Position object
+ * 
+ * @param udp 
+ * @return int 
+ */
+int* getWantedPosition(UDP *udp);
 
 #endif /* UDP_H_ */

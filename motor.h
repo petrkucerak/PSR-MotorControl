@@ -1,3 +1,5 @@
+#ifndef MOTOR_H_
+#define MOTOR_H_
 
 #include "vxWorks.h"
 #include <hwif/buslib/vxbFdtLib.h>
@@ -7,6 +9,8 @@
 #include <semLib.h>
 #include <taskLib.h>
 #include <stdio.h>
+#include "UDP.h"
+//#include <string.h>
 // GPIO registers (TRM sect. 14 and B.19)
 #define GPIO_DATA_RO_OFFSET    0x068
 #define GPIO_DIRM_OFFSET       0x284
@@ -49,14 +53,16 @@
 #define GPIO_INT_ANY(motor)    REGISTER((motor)->gpioRegs, GPIO_INT_ANY_OFFSET)
 #define GPIO_RAW(motor)        REGISTER((motor)->gpioRegs, GPIO_DATA_RO_OFFSET)
 
+#define MOTOR_PWM_PERIOD 0xA00
+extern int wanted_position;
 /**
  * @brief Predefined structure for accessing motor registers
  * 
  */
 struct psrMotor {
-    VIRT_ADDR fpgaRegs;
-    VIRT_ADDR gpioRegs;
-    UINT32 gpioIrqBit;
+	VIRT_ADDR fpgaRegs;
+	VIRT_ADDR gpioRegs;
+	UINT32 gpioIrqBit;
 };
 /**
  * @brief Inicialization of motor and all of its functions
@@ -79,15 +85,20 @@ void motorShutdown(struct psrMotor *pMotor);
  * @param pMotor Handler for the motor we want to move 
  * @param input_steps Position relative to the starting position
  */
-void moveMotor(struct psrMotor *pMotor,int input_steps);
+void moveMotor(struct psrMotor *pMotor, int wanted_steps);
 /**
  * @brief Get the actual step count of the motor since init
  * 
  * @return Int count of steps relative to start
  */
+void motorControllTask(struct psrMotor *pMotor, UDP *udp);
 int getMotorSteps();
+int getPWM(struct psrMotor *pMotor);
 /**
  * @brief Set motor steps to zero, reinicialize the step counter
  * 
  */
 void resetSteps();
+
+#endif /* MOTOR_H_*/
+

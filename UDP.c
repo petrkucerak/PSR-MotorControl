@@ -7,6 +7,8 @@
 
 #include "UDP.h"
 
+#include "motor.h"
+
 #include "vxWorks.h"
 #include <stdio.h>
 #include <string.h>
@@ -21,8 +23,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <semLib.h>
 
-UDP *initUDP(char *ipAddress, int port) {
+UDP* initUDP(char *ipAddress, int port) {
 
 	UDP *udp = NULL;
 	udp = (UDP*) malloc(sizeof(UDP));
@@ -73,7 +76,32 @@ UDP *initUDP(char *ipAddress, int port) {
 		inet_aton(ipAddress, &udp->srv_addr.sin_addr);
 		udp->srv_addr.sin_port = (uint16_t) port;
 	}
+
+	/* Init a position_wanted semaphore */
+	udp->position_wanted_sem = semMCreate(SEM_Q_FIFO);
+	udp->wanted_position = 0;
+
 	return udp;
+}
+
+void motorMaster(UDP *udp, int size, int *isEndp) {
+	/* Allocate structure receiving data */
+	int *data = NULL;
+	data = (int*) malloc(sizeof(int) * size);
+	if (data == NULL) {
+		fprintf(stderr,
+				"ERROR: Can't allocated structure for testing data! [UDP.c]\n");
+		exit(1);
+	}
+	while (!*isEndp) {
+		int step = getMotorSteps();
+		printf("Master motor positon is: %d\n", step);
+		data[0] = step;
+		sendUDPData(udp, data, size);
+
+	}
+	free(data);
+	data = NULL;
 }
 
 void sendUDPData(UDP *udp, int *data, int size) {
@@ -100,6 +128,8 @@ void recieveUDPData(UDP *udp, int *data, int size) {
 		printf("WARNING: Master can't sending data! [UDP.c]\n");
 	/* end of debugging print */
 
+	udp->addrlen = sizeof(udp->cli_name);
+
 	int t_size = recvfrom(udp->sockd, data, size, 0,
 			(struct sockaddr*) &udp->cli_name, &udp->addrlen);
 	if (t_size != size) {
@@ -113,4 +143,32 @@ void closeUDP(UDP *udp) {
 	close(udp->sockd);
 	free(udp);
 	udp = NULL;
+}
+
+void UDPHandler(UDP *udp, int size, int *isEndp) {
+	/* Allocate structure receiving data */
+	int *data = NULL;
+	data = (int*) malloc(sizeof(int) * size);
+	if (data == NULL) {
+		fprintf(stderr,
+				"ERROR: Can't allocated structure for testing data! [UDP.c]\n");
+		exit(1);
+	}
+	while (!*isEndp) {
+		recieveUDPData(udp, data, size);
+		semTake(udp->position_wanted_sem, WAIT_FOREVER);
+		udp->wanted_position = data[0];
+		semGive(udp->position_wanted_sem);
+		// printf("Recieved data position is: %d\n", udp->wanted_position);
+	}
+	free(data);
+	data = NULL;
+}
+
+void setWantedPosition(UDP *udp, int value) {
+	udp->wanted_position = value;
+}
+
+int* getWantedPosition(UDP *udp) {
+	return &udp->wanted_position;
 }
