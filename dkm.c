@@ -9,8 +9,6 @@
 #include <semLib.h>
 #include  <time.h>
 
-//192.168.223.208
-
 #define WEB_SERVER_PRIORITY 100
 #define MOTOR_CONTROLL_PRIORITY 100
 #define HTTP_DATA_HANDLER_PRIORITY 100
@@ -122,7 +120,7 @@ void start(char *ipAddress, int port) {
 		sprintf(taskName, "tMotorControl");
 		TASK_ID tMotorControl = taskSpawn(taskName, MOTOR_CONTROLL_PRIORITY, 0,
 				4096, (FUNCPTR) motorControllTask, (struct psrMotor*) my_motor,
-				(UDP*) udp, 0, 0, 0, 0, 0, 0, 0, 0);
+				(UDP*) udp, isEndp, 0, 0, 0, 0, 0, 0, 0);
 		if (tMotorControl == NULL) {
 			fprintf(stderr, "ERROR: Can't spawn a Motor control [dkm.c]\n");
 		}

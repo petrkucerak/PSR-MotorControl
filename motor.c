@@ -1,16 +1,20 @@
-#include "motor.h"
-#include "vxWorks.h"
+
+/**
+ * @file motor.c
+ * @author Jan Tonner (tonnejan@cvut.fel.cz)
+ * @brief Contains implementations of functions for motor controll and data access
+ * @version 0.1
+ * @date 2023-01-06
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
 #include <string.h>
+#include "motor.h"
 
-#define e enc_i
 SEM_ID isrSemaphore;
-
-typedef struct encoder_info {
-	uint8_t A, B, A_last, B_last;
-} encoder_info;
-
 encoder_info enc_i;
-static int steps;
+#define e enc_i
 
 LOCAL VXB_FDT_DEV_MATCH_ENTRY psrMotorMatch[] = { { "cvut,psr-motor", NULL },
 		{ } /* Empty terminated list */
@@ -156,12 +160,14 @@ int getPWM(struct psrMotor *pMotor) {
 	if (dir == 0) {
 		return 0;
 	}
-	pwm = FPGA_PWM_DUTY(pMotor) & ~FPGA_PWM_PERIOD_MASK;
+	pwm = pwm & FPGA_PWM_PERIOD_MASK;
+	pwm = (100 * pwm)/MOTOR_PWM_PERIOD;
+	if(pwm>100){
+		pwm=100;
+	}
 	if (dir == 1) {
-		pwm = MOTOR_PWM_PERIOD * 100 / pwm;
 		return pwm;
 	} else {
-		pwm = MOTOR_PWM_PERIOD * 100 / pwm;
 		return -pwm;
 	}
 }
@@ -203,17 +209,16 @@ struct psrMotor* motorInit() {
 
 }
 
-void motorControllTask(struct psrMotor *pMotor, UDP *udp) {
-
+void motorControllTask(struct psrMotor *pMotor, UDP *udp,int *end) {
+	
 	FPGA_PWM_DUTY(pMotor) &= FPGA_PWM_PERIOD_MASK; //clear direction
 	FPGA_PWM_DUTY(pMotor) &= ~FPGA_PWM_PERIOD_MASK; //clear duty
 
-	while (1) {
+	while (!(*end)) {
 		semTake(udp->position_wanted_sem, WAIT_FOREVER);
 		int pos = udp->wanted_position;
 		semGive(udp->position_wanted_sem);
 		moveMotor(pMotor, pos);
 		//printf("steps %d , wanted_steps %d \n", steps, pos);
 	}
-
 }

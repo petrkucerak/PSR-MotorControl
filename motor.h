@@ -1,3 +1,13 @@
+/**
+ * @file motor.h
+ * @author Jan Tonner (tonnejan@cvut.fel.cz)
+ * @brief Header file for motor controll, including macros for accessing GPIO registers
+ * @version 0.1
+ * @date 2023-01-06
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
 #ifndef MOTOR_H_
 #define MOTOR_H_
 
@@ -54,6 +64,14 @@
 #define GPIO_RAW(motor)        REGISTER((motor)->gpioRegs, GPIO_DATA_RO_OFFSET)
 
 #define MOTOR_PWM_PERIOD 0xA00
+
+
+typedef struct encoder_info {
+	uint8_t A, B, A_last, B_last;
+} encoder_info;
+
+static int steps;
+
 /**
  * @brief Predefined structure for accessing motor registers
  * 
@@ -91,7 +109,7 @@ void moveMotor(struct psrMotor *pMotor, int wanted_steps);
  * @param pMotor pointer to motor which i want to controll
  * @param udp pointer to udp struct needed for mutex
  */
-void motorControllTask(struct psrMotor *pMotor, UDP *udp);
+void motorControllTask(struct psrMotor *pMotor, UDP *udp,int *end);
 /**
  * @brief Get the actual step count of the motor since init
  * 
@@ -99,10 +117,10 @@ void motorControllTask(struct psrMotor *pMotor, UDP *udp);
  */
 int getMotorSteps();
 /**
- * @brief Get actual value of motor pwm
+ * @brief Get actual value of motor pwm with minus as oposite direction
  * 
  * @param pMotor pointer to motor which i want to read from
- * @return value of pwm where direction is expresed as plus or minus sign 
+ * @return precentage value of pwm
  */
 int getPWM(struct psrMotor *pMotor);
 /**
