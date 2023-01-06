@@ -54,7 +54,6 @@
 #define GPIO_RAW(motor)        REGISTER((motor)->gpioRegs, GPIO_DATA_RO_OFFSET)
 
 #define MOTOR_PWM_PERIOD 0xA00
-extern int wanted_position;
 /**
  * @brief Predefined structure for accessing motor registers
  * 
@@ -79,20 +78,32 @@ struct psrMotor* motorInit();
  */
 void motorShutdown(struct psrMotor *pMotor);
 /**
- * @brief Comman d for the motor to move to position relative
- * to start position. Proporsion conrelled speed.
+ * @brief Command for the motor to move to position relative
+ * to start position. Proporsion conrolled speed.
  * 
  * @param pMotor Handler for the motor we want to move 
  * @param input_steps Position relative to the starting position
  */
 void moveMotor(struct psrMotor *pMotor, int wanted_steps);
 /**
+ * @brief Task for controlling motor movement and also position hold
+ * 
+ * @param pMotor pointer to motor which i want to controll
+ * @param udp pointer to udp struct needed for mutex
+ */
+void motorControllTask(struct psrMotor *pMotor, UDP *udp);
+/**
  * @brief Get the actual step count of the motor since init
  * 
  * @return Int count of steps relative to start
  */
-void motorControllTask(struct psrMotor *pMotor, UDP *udp);
 int getMotorSteps();
+/**
+ * @brief Get actual value of motor pwm
+ * 
+ * @param pMotor pointer to motor which i want to read from
+ * @return value of pwm where direction is expresed as plus or minus sign 
+ */
 int getPWM(struct psrMotor *pMotor);
 /**
  * @brief Set motor steps to zero, reinicialize the step counter
