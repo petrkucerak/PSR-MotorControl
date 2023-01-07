@@ -15,11 +15,17 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 
+#include <time.h>
+#include <sysLib.h>
+
 #define SERVER_PORT 80 /* Port 80 is reserved for HTTP protocol */
 #define SERVER_MAX_CONNECTIONS 20
 #define WEB_RESPONSE_PRIORITY 255
 
 #define ID http_d->cycle_p
+
+#define CLOCK_RATE 100
+
 
 HTTP_D* initHTTPData() {
 
@@ -60,15 +66,28 @@ void saveHTTPData(HTTP_D *http_d, int motor_position, int requested_position,
 
 void handleHTTPData(UDP *udp, struct psrMotor *my_motor, HTTP_D *http_d,
 		int *isEndp) {
-
+	UINT64 start, end, res;
+	int wait_time;
+	struct timespec t;
+	UINT64 freq = 866000000;
+	sysTimestampEnable();
 	while (!*isEndp) {
+		res=0;
+		sysTimestamp64Lock(&start);
+
 		int motor_position = getMotorSteps();
 		int requested_position = udp->wanted_position;
 		int pwm_speed = getPWM(my_motor);
 		saveHTTPData(http_d, motor_position, requested_position, pwm_speed);
 		//printf("Motor position: %d\nRequested position: %d\nPWM speed: %d\n\n",
 		//		motor_position, requested_position, pwm_speed);
-		taskDelay(1);
+		sysTimestamp64Lock(&end);		
+		res =((end-start)*freq)/sysTimestamp64Freq();
+		printf("elapsed time %d\n",(int)res);
+		wait_time= (2000-((int)res))*1000;
+		printf("wait time is %d\n",wait_time); 
+		t.tv_nsec=wait_time;
+		nanosleep(&t,NULL);
 	}
 }
 
