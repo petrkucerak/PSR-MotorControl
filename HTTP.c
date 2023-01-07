@@ -84,9 +84,9 @@ void handleHTTPData(UDP *udp, struct psrMotor *my_motor, HTTP_D *http_d,
 		//		motor_position, requested_position, pwm_speed);
 		sysTimestamp64Lock(&end);		
 		res =((end-start)*freq)/sysTimestamp64Freq();
-		printf("elapsed time %d\n",(int)res);
+		// printf("elapsed time %d\n",(int)res);
 		wait_time= (2000-((int)res))*1000;
-		printf("wait time is %d\n",wait_time); 
+		// printf("wait time is %d\n",wait_time); 
 		t.tv_nsec=wait_time;
 		nanosleep(&t,NULL);
 	}
