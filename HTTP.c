@@ -20,11 +20,11 @@
 
 #define SERVER_PORT 80 /* Port 80 is reserved for HTTP protocol */
 #define SERVER_MAX_CONNECTIONS 20
-#define WEB_RESPONSE_PRIORITY 255
+#define WEB_RESPONSE_PRIORITY 115
 
 #define ID http_d->cycle_p
 
-#define CLOCK_RATE 100
+#define CLOCK_RATE 450
 
 
 HTTP_D* initHTTPData() {
@@ -62,19 +62,22 @@ void saveHTTPData(HTTP_D *http_d, int motor_position, int requested_position,
 	http_d->requested_position[ID] = requested_position;
 	http_d->pwm_speed[ID] = pwm_speed;
 	semGive(http_d->http_sem);
+	
 }
 
 void handleHTTPData(UDP *udp, struct psrMotor *my_motor, HTTP_D *http_d,
 		int *isEndp) {
+	sysClkRateSet(CLOCK_RATE);
 	UINT64 start, end, res;
+	UINT64 freq = 866000000;
 	int wait_time;
 	struct timespec t;
-	UINT64 freq = 866000000;
+	t.tv_sec=0;
+	t.tv_nsec=8000;
 	sysTimestampEnable();
 	while (!*isEndp) {
 		res=0;
 		sysTimestamp64Lock(&start);
-
 		int motor_position = getMotorSteps();
 		int requested_position = udp->wanted_position;
 		int pwm_speed = getPWM(my_motor);
@@ -82,12 +85,11 @@ void handleHTTPData(UDP *udp, struct psrMotor *my_motor, HTTP_D *http_d,
 		//printf("Motor position: %d\nRequested position: %d\nPWM speed: %d\n\n",
 		//		motor_position, requested_position, pwm_speed);
 		sysTimestamp64Lock(&end);		
-		res =((end-start)*freq)/sysTimestamp64Freq();
-		printf("elapsed time %d\n",(int)res);
-		wait_time= (2000-((int)res))*1000;
-		printf("wait time is %d\n",wait_time); 
-		t.tv_nsec=wait_time;
-		nanosleep(&t,NULL);
+		//res =((end-start)*freq)/sysTimestamp64Freq();//general 1800-2000
+		//wait_time= (2000-((int)res))*1000;
+		//nanosleep(&t,NULL);
+		//nanosleep itself is taking too much time, unusable
+		taskDelay(1);//solved with right clockrate
 	}
 }
 
