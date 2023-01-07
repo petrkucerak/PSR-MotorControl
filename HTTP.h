@@ -29,8 +29,8 @@ typedef struct http_s {
 	int cycle_p;
 } HTTP_D;
 
-void www(int *isEndp);
-void serverResponse(int newFd);
+void www(int *isEndp, HTTP_D *http_d);
+void serverResponse(int newFd, HTTP_D *http_d);
 
 HTTP_D* initHTTPData();
 void handleHTTPData(UDP *udp, struct psrMotor *my_motor, HTTP_D *http_d,

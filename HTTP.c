@@ -30,6 +30,11 @@ HTTP_D* initHTTPData() {
 				"ERROR: Can't allocate memory for the HTTP_D structure! [HTTP.c]\n");
 		exit(1);
 	}
+	for (int i = 0; i < CYCLE_SIZE; ++i) {
+		http_d->motor_position[i] = 0;
+		http_d->requested_position[i] = 0;
+		http_d->pwm_speed[i] = 0;
+	}
 
 	/* Init a http data mutex */
 	http_d->http_sem = semMCreate(SEM_Q_FIFO);
@@ -61,10 +66,9 @@ void handleHTTPData(UDP *udp, struct psrMotor *my_motor, HTTP_D *http_d,
 		int requested_position = udp->wanted_position;
 		int pwm_speed = getPWM(my_motor);
 		saveHTTPData(http_d, motor_position, requested_position, pwm_speed);
-		printf(
-				"Motor position: %d\nRequested position: %d\nPWM speed: %d\n\n",
-				motor_position, requested_position, pwm_speed);
-		taskDelay(100);
+		//printf("Motor position: %d\nRequested position: %d\nPWM speed: %d\n\n",
+		//		motor_position, requested_position, pwm_speed);
+		taskDelay(1);
 	}
 }
 
@@ -72,7 +76,7 @@ void removeHTTPData(HTTP_D *http_d) {
 	free(http_d);
 	http_d = NULL;
 }
-void www(int *isEndp) {
+void www(int *isEndp, HTTP_D *http_d) {
 	int s;
 	int newFd;
 	struct sockaddr_in serverAddr;
@@ -127,7 +131,8 @@ void www(int *isEndp) {
 		char taskName[60];
 		sprintf(taskName, "tHttpRes%lu", (unsigned) time(NULL));
 		TASK_ID tHttpRes = taskSpawn(taskName, WEB_RESPONSE_PRIORITY, 0, 4096,
-				(FUNCPTR) serverResponse, newFd, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+				(FUNCPTR) serverResponse, newFd, (HTTP_D*) http_d, 0, 0, 0, 0,
+				0, 0, 0, 0);
 
 		if (tHttpRes == NULL) {
 			fprintf(stderr,
@@ -137,7 +142,43 @@ void www(int *isEndp) {
 	}
 }
 
-void serverResponse(int newFd) {
+void serverResponse(int newFd, HTTP_D *http_d) {
+
+	/* Find a max and min value to create q graph scale */
+	int max_position = INT_MIN;
+	int min_position = INT_MAX;
+	for (int i = 0; i < CYCLE_SIZE; ++i) {
+		/* find a max value*/
+		if (http_d->motor_position[i] > max_position)
+			max_position = http_d->motor_position[i];
+		if (http_d->requested_position[i] > max_position)
+			max_position = http_d->requested_position[i];
+		/* find a min value*/
+		if (http_d->motor_position[i] < min_position)
+			min_position = http_d->motor_position[i];
+		if (http_d->requested_position[i] < min_position)
+			min_position = http_d->requested_position[i];
+	}
+
+	int difference = max_position - min_position;
+	if (difference < 10) {
+		max_position += 10;
+		min_position -= 10;
+	}
+
+	/* Add 20% to scale on both sides*/
+	max_position += (int) (difference * 0.2);
+	min_position -= (int) (difference * 0.2);
+
+	difference = max_position - min_position;
+	int step = (int) (difference * 0.25);
+
+	int y_scale_0 = min_position;
+	int y_scale_1 = min_position + (step * 1);
+	int y_scale_2 = min_position + (step * 2);
+	int y_scale_3 = min_position + (step * 3);
+	int y_scale_4 = max_position;
+
 	FILE *f = fdopen(newFd, "w");
 	/* Print the HTTP Response Header */
 	fprintf(f, "HTTP/1.0 200 OK\r\n");
@@ -146,9 +187,68 @@ void serverResponse(int newFd) {
 	fprintf(f, "\r\n");
 
 	/* Print the HTTP Response Body */
+	/* PRINT 1*/
 	fprintf(f,
-			"<!DOCTYPE html><html lang=\"cs\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><script src=\"https://cdn.tailwindcss.com\"></script><title>Motor Control - Dashboard</title></head><body onload=\"setTimeout(function(){location.reload()}, 100);\" class=\"flex justify-center w-full\"><h1 class=\"text-4xl font-bold\">Dashboard a motor control</h1><p>%d</p></body></html>\r\n",
-			time(NULL));
+			"<!DOCTYPE html> <html lang=\"cs\"> <head> <meta charset=\"UTF-8\"> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"> <title>Motor Control - Dashboard</title> </head> <body onload=\"setTimeout(function(){location.reload()}, 500);\"> <h1>Dashboard a motor control</h1> <div class=\"box first\"> <h2 class=\"box-title\">Actual and Requested Motor Position</h2> <p class=\"box-description\">absolute value</p> <div class=\"box-graph\"> <svg version=\"1.2\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" class=\"graph\" aria-labelledby=\"title\" role=\"img\"> <title id=\"title\">Actual and Requested Motor Position</title> <g class=\"grid x-grid\" id=\"xGrid\"> <line x1=\"90\" x2=\"90\" y1=\"5\" y2=\"371\"></line> </g> <g class=\"grid y-grid\" id=\"yGrid\"> <line x1=\"90\" x2=\"705\" y1=\"370\" y2=\"370\"></line> </g> <g class=\"labels x-labels\"> <text x=\"100\" y=\"392\">-2000</text> <text x=\"250\" y=\"392\">-1500</text> <text x=\"400\" y=\"392\">-1000</text> <text x=\"550\" y=\"392\">-500</text> <text x=\"700\" y=\"392\">0</text> <text x=\"400\" y=\"430\" class=\"label-title\">time [ms]</text> </g> <g class=\"labels y-labels\">");
+	/* PRINT 2*/
+	fprintf(f,
+			"<text x=\"80\" y=\"15\">%d</text> <text x=\"80\" y=\"95\">%d</text> <text x=\"80\" y=\"189\">%d</text> <text x=\"80\" y=\"273\">%d</text> <text x=\"80\" y=\"380\">%d</text><text x=\"-115\" y=\"40\" class=\"label-title\" transform=\"rotate(-90)\">motor position [step]</text> </g>",
+			y_scale_4, y_scale_3, y_scale_2, y_scale_1, y_scale_0);
+
+	/* PRINT 3*/
+	fprintf(f,
+			"<polyline fill=\"none\" stroke=\"#0074d9\" stroke-width=\"2\" points=\"\n");
+	// x step is 0.61
+	for (int i = 0; i < CYCLE_SIZE; ++i) {
+		int point = ID - i;
+		if (point < 0)
+			point += CYCLE_SIZE;
+		fprintf(f, "%f, %f\n", 700 - (i * 0.61),
+				(370
+						- (float) ((http_d->motor_position[point] - min_position)
+								* 370) / difference));
+	}
+	fprintf(f, "\" />;");
+	fprintf(f,
+			"<polyline fill=\"none\" stroke=\"#ff0000\" stroke-width=\"2\" points=\"\n");
+	// x step is 0.61
+	for (int i = 0; i < CYCLE_SIZE; ++i) {
+		int point = ID - i;
+		if (point < 0)
+			point += CYCLE_SIZE;
+		fprintf(f, "%f, %f\n", 700 - (i * 0.61),
+				(370
+						- (float) ((http_d->requested_position[point]
+								- min_position) * 370) / difference));
+	}
+	fprintf(f, "\" />;");
+	fprintf(f,
+			"<g> <circle cx=\"80\" cy=\"416\" data-value=\"7.2\" r=\"4\" class=\"red\"></circle> <circle cx=\"80\" cy=\"436\" data-value=\"7.2\" r=\"4\" class=\"blue\"></circle> <text x=\"90\" y=\"420\" class=\"label-title\">actual position</text> <text x=\"90\" y=\"440\" class=\"label-title\">requested position</text> </g>");
+
+	/* PRINT 5*/
+	fprintf(f,
+			"</svg> </div> </div> <div class=\"box second\"> <h2 class=\"box-title\">Current PWM duty cycle</h2> <p class=\"box-description\">in range –100%, +100%</p> <div class=\"box-graph\"> <svg version=\"1.2\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" class=\"graph\" aria-labelledby=\"title\" role=\"img\"> <title id=\"title\">Current PWM duty cycle</title> <g class=\"grid x-grid\" id=\"xGrid\"> <line x1=\"90\" x2=\"90\" y1=\"5\" y2=\"371\"></line> </g> <g class=\"grid y-grid\" id=\"yGrid\"> <line x1=\"90\" x2=\"705\" y1=\"370\" y2=\"370\"></line> </g> <g class=\"labels x-labels\"> <text x=\"100\" y=\"392\">-2000</text> <text x=\"250\" y=\"392\">-1500</text> <text x=\"400\" y=\"392\">-1000</text> <text x=\"550\" y=\"392\">-500</text> <text x=\"700\" y=\"392\">0</text> <text x=\"400\" y=\"430\" class=\"label-title\">time [ms]</text> </g>");
+
+	/* PRINT 6 */
+	fprintf(f,
+			"<g class=\"labels y-labels\"> <text x=\"80\" y=\"14\">+100</text> <text x=\"80\" y=\"96.5\">+50</text> <text x=\"80\" y=\"189\">0</text> <text x=\"80\" y=\"273\">-50</text> <text x=\"80\" y=\"380\">-100</text> <text x=\"-115\" y=\"40\" class=\"label-title\" transform=\"rotate(-90)\">PWM duty cycle [%]</text> </g>");
+
+	/* PRINT 7*/
+	fprintf(f,
+			"<polyline fill=\"none\" stroke=\"#0074d9\" stroke-width=\"2\" points=\"\n");
+	for (int i = 0; i < CYCLE_SIZE; ++i) {
+		int point = ID - i;
+		if (point < 0)
+			point += CYCLE_SIZE;
+		fprintf(f, "%f, %f\n", 700 - (i * 0.61),
+				(float) (http_d->pwm_speed[point] * 1.85) + 185);
+	}
+	fprintf(f, "\" />;");
+
+	/* PRINT 8 */
+	fprintf(f,
+			"</svg> </div> </div> </body> <style> /*.first{ position: absolute; top: 50px;} .second{ position: absolute; top: 580px;}*/ body { /*font-family: 'Open Sans', sans-serif; */} .graph .labels.x-labels { text-anchor: middle; } .graph .labels.y-labels { text-anchor: end; } .graph { height: 500px; width: 800px; } .graph .grid { stroke: #ccc; stroke-dasharray: 0; stroke-width: 1; } .labels { font-size: 14px; } .label-title { font-weight: bold; /* text-transform: uppercase; */ font-size: 12px; fill: #000; } .box-title { margin-bottom: 0; } .box-description { margin-top: 0.2rem; } .red { fill: #ff0000; } .blue { fill: #0074d9; } </style> </html> <!-- reources: https://css-tricks.com/how-to-make-charts-with-svg/ -->");
+
 	fclose(f);
 	close(newFd);
 
