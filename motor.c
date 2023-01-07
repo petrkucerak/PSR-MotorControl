@@ -175,7 +175,7 @@ void moveMotor(struct psrMotor *pMotor, int wanted_steps) {
 	//very slow rotation
 	int tmp = 0;
 	int speed = 0;
-	speed = abs((wanted_steps - steps) * 10) + 50;
+	speed = abs((wanted_steps - steps) * 10) + 100;
 	if (steps > wanted_steps) {
 		//printf("rotating -\n");
 		tmp = 0x80000000; //dir-
