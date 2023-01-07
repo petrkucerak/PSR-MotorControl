@@ -1,12 +1,169 @@
+<!-- START PRINT 1 -->
 <!DOCTYPE html>
 <html lang="cs">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
     <title>Motor Control - Dashboard</title>
 </head>
-<body onload="setTimeout(function(){location.reload()}, 100);" class="flex justify-center w-full">
-    <h1 class="text-4xl font-bold">Dashboard a motor control</h1>
+
+<body onload="/*setTimeout(function(){location.reload()}, 100);*/">
+    <h1>Dashboard a motor control</h1>
+    <div class="box">
+        <h2 class="box-title">Actual and Requested Motor Position</h2>
+        <p class="box-description">absolute value</p>
+        <div class="box-graph">
+            <svg version="1.2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                class="graph" aria-labelledby="title" role="img">
+                <title id="title">Actual and Requested Motor Position</title>
+                <g class="grid x-grid" id="xGrid">
+                    <line x1="90" x2="90" y1="5" y2="371"></line>
+                </g>
+                <g class="grid y-grid" id="yGrid">
+                    <line x1="90" x2="705" y1="370" y2="370"></line>
+                </g>
+                <g class="labels x-labels">
+                    <text x="100" y="392">-2000</text>
+                    <text x="250" y="392">-1500</text>
+                    <text x="400" y="392">-1000</text>
+                    <text x="550" y="392">-500</text>
+                    <text x="700" y="392">0</text>
+                    <text x="400" y="430" class="label-title">time [ms]</text>
+                </g>
+
+                <g class="labels y-labels">
+                    <!-- END PRINT 1 -->
+                    <!-- START PRINT 2 -->
+                    <text x="80" y="15">400</text>
+                    <text x="80" y="95">300</text>
+                    <text x="80" y="189">200</text>
+                    <text x="80" y="273">100</text>
+                    <text x="80" y="380">0</text>
+                    <text x="-115" y="40" class="label-title" transform="rotate(-90)">motor position [step]</text>
+                </g>
+                <!-- END PRINT 2 -->
+                <!-- START PRINT 4 -->
+                <polyline fill="none" stroke="#0074d9" stroke-width="2" points="
+                
+       90,150.5
+       700, 0
+     " />
+                <polyline fill="none" stroke="#ff0000" stroke-width="2" points="
+                
+       90,370.5
+       700, 200
+     " />
+                <g>
+                    <circle cx="80" cy="416" data-value="7.2" r="4" class="red"></circle>
+                    <circle cx="80" cy="436" data-value="7.2" r="4" class="blue"></circle>
+                    <text x="90" y="420" class="label-title">actual position</text>
+                    <text x="90" y="440" class="label-title">requested position</text>
+                </g>
+                <!-- END PRINT 4 -->
+                <!-- START PRINT 5 -->
+            </svg>
+        </div>
+    </div>
+    <div class="box">
+        <h2 class="box-title">Current PWM duty cycle</h2>
+        <p class="box-description">in range –100%, +100%</p>
+        <div class="box-graph">
+            <svg version="1.2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                class="graph" aria-labelledby="title" role="img">
+                <title id="title">Current PWM duty cycle</title>
+                <g class="grid x-grid" id="xGrid">
+                    <line x1="90" x2="90" y1="5" y2="371"></line>
+                </g>
+                <g class="grid y-grid" id="yGrid">
+                    <line x1="90" x2="705" y1="370" y2="370"></line>
+                </g>
+                <g class="labels x-labels">
+                    <text x="100" y="392">-2000</text>
+                    <text x="250" y="392">-1500</text>
+                    <text x="400" y="392">-1000</text>
+                    <text x="550" y="392">-500</text>
+                    <text x="700" y="392">0</text>
+                    <text x="400" y="430" class="label-title">time [ms]</text>
+                </g>
+                <!-- END PRINT 5 -->
+                <!-- START PRINT 6 -->
+                <g class="labels y-labels">
+                    <text x="80" y="14">+100</text>
+                    <text x="80" y="96.5">+50</text>
+                    <text x="80" y="189">0</text>
+                    <text x="80" y="273">-50</text>
+                    <text x="80" y="380">-100</text>
+                    <text x="-115" y="40" class="label-title" transform="rotate(-90)">PWM duty cycle [%]</text>
+                    
+                </g>
+                <!-- END PRINT 6 -->
+                <!-- START PRINT 7 -->
+                <circle cx="90" cy="185" data-value="7.2" r="4"></circle>
+                <!-- END PRINT 7 -->
+                <!-- START PRINT 8 -->
+            </svg>
+        </div>
+    </div>
 </body>
+<style>
+    body {
+        font-family: 'Open Sans', sans-serif;
+    }
+
+    .graph .labels.x-labels {
+        text-anchor: middle;
+    }
+
+    .graph .labels.y-labels {
+        text-anchor: end;
+    }
+
+
+    .graph {
+        height: 500px;
+        width: 800px;
+    }
+
+    .graph .grid {
+        stroke: #ccc;
+        stroke-dasharray: 0;
+        stroke-width: 1;
+    }
+
+    .labels {
+        font-size: 14px;
+    }
+
+    .label-title {
+        font-weight: bold;
+        /* text-transform: uppercase; */
+        font-size: 12px;
+        fill: #000;
+    }
+
+    .data {
+        fill: red;
+        stroke-width: 1;
+    }
+
+    .box-title {
+        margin-bottom: 0;
+    }
+
+    .box-description {
+        margin-top: 0.2rem;
+    }
+
+    .red {
+        fill: #ff0000;
+    }
+
+    .blue {
+        fill: #0074d9;
+    }
+</style>
+
 </html>
+
+<!-- reources: https://css-tricks.com/how-to-make-charts-with-svg/ -->

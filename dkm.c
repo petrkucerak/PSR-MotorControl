@@ -59,17 +59,6 @@ void start(char *ipAddress, int port) {
 	printf("communication port: %d\n", port);
 	printf("~~~~~~~~~~~~~~~~~~~~~~~\n\n");
 
-	/* Start web server as a task */
-	if (!udp->isMaster) {
-		char taskName[10];
-		sprintf(taskName, "tWebServer");
-		TASK_ID tWebServer = taskSpawn(taskName, WEB_SERVER_PRIORITY, 0, 4096,
-				(FUNCPTR) www, isEndp, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-		if (tWebServer == NULL) {
-			fprintf(stderr, "ERROR: Can't spawn a web server [dkm.c]\n");
-		}
-	}
-
 	/* Allocate data for testing */
 	int *data = NULL;
 	data = (int*) malloc(sizeof(int) * UDP_SIZE);
@@ -98,6 +87,14 @@ void start(char *ipAddress, int port) {
 
 	} else {
 		/* SLAVE */
+		/* Start web server as a task */
+		sprintf(taskName, "tWebServer");
+		TASK_ID tWebServer = taskSpawn(taskName, WEB_SERVER_PRIORITY, 0, 4096,
+				(FUNCPTR) www, isEndp, (HTTP_D*) http_d, 0, 0, 0, 0, 0, 0, 0,
+				0);
+		if (tWebServer == NULL) {
+			fprintf(stderr, "ERROR: Can't spawn a web server [dkm.c]\n");
+		}
 		/* init UDP HANDLER task - save wanted position into the udp structure*/
 		sprintf(taskName, "tUDPHandler");
 		TASK_ID tUDPHandler = taskSpawn(taskName, UDP_HANDLER_PRIORITY, 0, 4096,
