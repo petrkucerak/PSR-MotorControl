@@ -86,20 +86,11 @@ void handleHTTPData(UDP *udp, struct psrMotor *my_motor, HTTP_D *http_d,
 		//printf("Motor position: %d\nRequested position: %d\nPWM speed: %d\n\n",
 		//		motor_position, requested_position, pwm_speed);
 		sysTimestamp64Lock(&end);		
-<<<<<<< HEAD
-		//res =((end-start)*freq)/sysTimestamp64Freq();//general 1800-2000
+		res =((end-start)*freq)/sysTimestamp64Freq();//general 1800-2000
 		//wait_time= (2000-((int)res))*1000;
 		//nanosleep(&t,NULL);
 		//nanosleep itself is taking too much time, unusable
 		taskDelay(1);//solved with right clockrate
-=======
-		res =((end-start)*freq)/sysTimestamp64Freq();
-		// printf("elapsed time %d\n",(int)res);
-		wait_time= (2000-((int)res))*1000;
-		// printf("wait time is %d\n",wait_time); 
-		t.tv_nsec=wait_time;
-		nanosleep(&t,NULL);
->>>>>>> 5b374adfbb0be86ebd957ca410f68c3f87f9cbad
 	}
 }
 
