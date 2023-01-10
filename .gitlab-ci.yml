@@ -9,4 +9,4 @@ pages:
     paths:
     - public
   only:
-  - feature/add-gitlab-pages-support
+  - create-doxygen-documentation
