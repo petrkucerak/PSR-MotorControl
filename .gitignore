@@ -28,3 +28,6 @@ NoDebug/
 *.so
 *.st
 *.sym
+
+# Doxygen
+Documentation
